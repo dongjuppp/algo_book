@@ -19,7 +19,6 @@ for i in range(len(x_move)):
     tmp_y=y+y_move[i]
 
     if tmp_x in x_list and tmp_y in y_list:
-        print(chr(tmp_x),tmp_y)
         count+=1
 
 print(count)
