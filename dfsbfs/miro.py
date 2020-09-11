@@ -10,28 +10,34 @@ for i in range(n):
     visit.append([False]*m)
 
 result=999999999999
+
+#상하좌우
+x_move=[0,0,-1,1]
+y_move=[-1,1,0,0]
+
 def bfs(x,y,r):
-    if x<=-1 or x>=m or y<=-1 or y>=n:
-        return
-    if x+1==m and y+1==n:
-        result=min(result,r)
-        return
-    if lt[y][x]==1:
-        queue=deque()
-        queue.append([x,y])
-        visit[y][x]=True
+    global result
+    queue = deque()
+    queue.append([x,y,r])
+    visit[y][x]=True
 
     while queue:
         v=queue.popleft()
-        bfs(v[0]-1,v[1],r+1)
-        bfs(v[0]+1,v[1],r+1)
-        bfs(v[0],v[1]+1,r+1)
-        bfs(v[0],v[1]-1,r+1)
+        
+        v[2]+=1
+        if v[0]==m-1 and v[1]==n-1:
+            result = min(result,v[2])
+        
 
-bfs(0,0,result)
+        for i in range(len(x_move)):
+            tmp_x=v[0]+x_move[i]
+            tmp_y=y+v[1]+y_move[i]
 
+            if tmp_x<=-1 or tmp_x>=m or tmp_y<=-1 or tmp_y>=n or lt[tmp_y][tmp_x]==0 or visit[tmp_y][tmp_x]==True:
+                continue
+            if not visit[tmp_y][tmp_x]:
+                queue.append([tmp_x,tmp_y,v[2]])
+                visit[tmp_y][tmp_x]=True
+
+bfs(0,0,0)
 print(result)
-
-
-
-
