@@ -31,58 +31,61 @@ head_point_time=time.pop(0)
 
 # 상하좌우 0,1,2,3
 head_point=3
-tail=0
 go1=0
 go2=1
+tail=[]
 while True:  
     count+=1
-    #벽꿍
-    if now[0]+go1>n or now[0]+go1<1 or now[1]+go2>n or now[1]+go2<1:
-        break
-    #몸꿍
-    col=0
-    prev1=now[0]-go1
-    prev2=now[1]-go2
-    
-    for i in range(tail):
-        if i in time:
-            pass
-        if prev1==now[0] and prev2==now[0]:
-            col=1
-
-    if col==1:
-        break
-
-    if world[now[0]+go1][now[1]+go2]==1:
-        tail+=1
-        world[now[0]+go1][now[1]+go2]=0
+    tail.append([now[0],now[1]])
 
     now[0]+=go1
     now[1]+=go2
 
-    #뱡향 바꾸기
-    for i in range(time):
-        if count==i:
-            t=turn[i]
-            if t=='D':
-                if head_point==3:
-                    head_point=1
-                elif head_point==2:
-                    head_point=0
-                elif head_point==1:
-                    head_point=3
-                else:
-                    head_point=2
-            if t=='L':
-                if head_point==3:
-                    head_point=0
-                elif head_point==2:
-                    head_point=1
-                elif head_point==1:
-                    head_point=2
-                else:
-                    head_point=3
+    
+    #벽꿍
+    if now[0]>n or now[0]<1 or now[1]>n or now[1]<1:
+        break
+    #몸꿍
+    col=0
+    for i in tail:
+        if now[0]==i[0] and now[1]==i[1]:
+            col=1
             break
+
+    if col==1:
+        break
+
+    if not(now[0]>n or now[0]<1 or now[1]>n or now[1]<1):
+        if world[now[0]][now[1]]!=1:
+            tail.pop(0)
+        else:
+            world[now[0]][now[1]]=0
+    
+
+    #뱡향 바꾸기
+    if count==head_point_time:
+        if len(turn)>0:
+            t=turn.pop(0)
+        if t=='D':
+            if head_point==3:
+                    head_point=1
+            elif head_point==2:
+                head_point=0
+            elif head_point==1:
+                head_point=2
+            else:
+                head_point=3
+        if t=='L':
+            if head_point==3:
+                head_point=0
+            elif head_point==2:
+                head_point=1
+            elif head_point==1:
+                head_point=3
+            else:
+                head_point=2
+        if len(time)>0:
+            head_point_time=time.pop(0)
 
     #0123 상하좌우
     if head_point==0:
