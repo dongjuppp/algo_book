@@ -1,42 +1,44 @@
 #백준 1339번 단어 수학
 import operator
 
-num=int(input())
-words=[]
+num = int(input())
 
+nums = ['0','1','2','3','4','5','6','7','8','9']
 
-numbers=[0,1,2,3,4,5,6,7,8,9]
-alphabets={}
+lt = []
+
+dicts = {}
 
 for i in range(num):
-    words.append(input())
+    l = list(input())
+    lt.append(l)
+    for j in range(len(l)):
+        dicts[l[j]] = 0
 
-words=sorted(words,key=lambda x:len(x),reverse=True)
+for i in range(num):
+    now = lt[i]
+    le = len(now)
+    for j in range(le):
+        dicts[now[j]] += 10 ** (le - j)
 
-
-
-for word in words:
-    word_length=len(word)
-    for i in range(len(word)):
-        if not word[i] in alphabets:
-            alphabets[word[i]]=word_length-i
-
-
-alphabets=sorted(alphabets.items(),key=operator.itemgetter(1),reverse=True)
+sdict = sorted(dicts.items(), key = operator.itemgetter(1), reverse = True)
 
 
-result={}
-start=9
-for i in range(len(alphabets)):
-    result[alphabets[i][0]]=start-i
-
-re=[]
-
-for word in words:
-    answer=''
-    for i in range(len(word)):
-        answer+=str(result[word[i]])
-    re.append(int(answer))
+for i in range(len(sdict)):
+    n = sdict[i]
+    dicts[n[0]] = nums.pop()
 
 
-print(sum(re))
+for i in range(len(lt)):
+    for j in range(len(lt[i])):
+        lt[i][j] = dicts[lt[i][j]]
+
+
+
+result = 0
+for i in range(len(lt)):
+    n = int(''.join(lt[i]))
+    result+=n
+
+print(result)
+
