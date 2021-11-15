@@ -2,7 +2,7 @@
 import sys
 input=sys.stdin.readline
 
-array_list=[0 for i in range(10000)]
+array_list=[0]*10000
 num=int(input())
 
 for cnt in range(num):
